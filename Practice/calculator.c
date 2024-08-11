@@ -38,11 +38,12 @@ void push(Stack *s, float num)
 {
     if (isFull(s))
     {
+        // Desplazar los elementos hacia abajo
         for (int i = 0; i < MAX_SIZE - 1; i++)
         {
             s->items[i] = s->items[i + 1];
         }
-        s->items[MAX_SIZE - 1] = num;
+        s->items[MAX_SIZE - 1] = num; // Añadir el nuevo número al final
     }
     else
     {
@@ -72,8 +73,9 @@ void clear(Stack *s)
 // Imprimir pila en orden inverso
 void printStack(Stack *s)
 {
-    printf("\nSus números:\n");
-    for (int i = s->top; i >= 0; i--)
+    printf("");
+    printf("Sus números:\n");
+    for (int i = 0; i <= s->top; i++)
     {
         printf("%0.2f\n", s->items[i]);
     }
@@ -98,14 +100,15 @@ void mathMenu()
 
 void performOperation(Stack *s, int operation)
 {
-    if (s->top < 1 && (operation < 5 || operation > 7))
+    if (s->top < 1)
     {
-        printf("No hay suficientes números en la pila para realizar la operación.\n");
+        printf("\nNo hay suficientes números en la pila para realizar la operación.\n");
         return;
     }
 
-    float a = s->items[s->top - 1];
+    // Los dos últimos números ingresados en la pila
     float b = s->items[s->top];
+    float a = s->items[s->top - 1];
     float result = 0.0f;
 
     switch (operation)
@@ -121,66 +124,61 @@ void performOperation(Stack *s, int operation)
         break;
     case 4:
         if (b != 0)
+        {
             result = a / b;
+        }
         else
         {
-            printf("");
-            printf("Error: División por cero.\n");
+            printf("\nError: División por cero.\n");
             return;
         }
         break;
     case 5:
-        result = sin(b);
-        pop(s);
+        result = sin(a);
         break;
     case 6:
-        result = cos(b);
-        pop(s);
+        result = cos(a);
         break;
     case 7:
-        if (cos(b) != 0)
-            result = tan(b);
-        else
+        if (fmod(a, 3.14159265358979323846) == 3.14159265358979323846 / 2 || fmod(a, 3.14159265358979323846) == -3.14159265358979323846 / 2)
         {
-            printf("");
-            printf("Error: Tangente indefinida.\n");
+            printf("\nError: La tangente de 90 grados (o múltiplos) tiende al infinito.\n");
             return;
         }
-        pop(s);
+        result = tan(a);
         break;
     case 8:
-        if (b >= 0)
-            result = sqrt(b);
-        else
+        if (a < 0)
         {
-            printf("");
-            printf("Error: Raíz cuadrada de un número negativo.\n");
+            printf("\nError: No se puede calcular la raíz cuadrada de un número negativo.\n");
             return;
         }
-        pop(s);
+        result = sqrt(a);
         break;
     case 9:
-        result = pow(a, b);
+        result = 1;
+        for (int i = 0; i < (int)b; i++)
+            result *= a;
         break;
     case 10:
         if ((int)b != 0)
+        {
             result = (int)a % (int)b;
+        }
         else
         {
-            printf("");
-            printf("Error: División por cero.\n");
+            printf("\nError: División por cero.\n");
             return;
         }
         break;
     default:
-        printf("Operación no válida.\n");
+        printf("\nOperación no válida.\n");
         return;
     }
 
     // Almacena el resultado en la posición del penúltimo número y elimina el último
     s->items[s->top - 1] = result;
-    if (operation < 5 || operation > 7)
-        pop(s);
+    pop(s); // Elimina el último número usado en la operación
 }
 
 // Menú principal
@@ -206,12 +204,17 @@ int main()
     do
     {
         menu();
-        scanf("%d", &option);
+        if (scanf("%d", &option) != 1)
+        {
+            printf("Entrada inválida. Intente nuevamente.\n");
+            while (getchar() != '\n')
+                ;
+            continue;
+        }
 
         switch (option)
         {
         case 1:
-            printf("");
             printf("Ingrese un número: ");
             scanf("%f", &num);
             push(&stack, num);
@@ -228,14 +231,14 @@ int main()
             performOperation(&stack, operation);
             break;
         case 5:
-            printf("");
             printf("Saliendo del programa...\n");
             break;
+
         default:
-            printf("");
             printf("Opción no válida, intente nuevamente.\n");
         }
 
+        printf("");
         printStack(&stack);
 
     } while (option != 5);

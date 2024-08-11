@@ -101,8 +101,7 @@ void performOperation(Stack *s, int operation)
 {
     if (s->top < 1)
     {
-        printf("");
-        printf("No hay suficientes números en la pila para realizar la operación.\n");
+        printf("\nNo hay suficientes números en la pila para realizar la operación.\n");
         return;
     }
 
@@ -124,11 +123,15 @@ void performOperation(Stack *s, int operation)
         break;
     case 4:
         if (b != 0)
+        {
             result = a / b;
+        }
         else
-            printf("");
-        printf("Error: División por cero.\n");
-        return;
+        {
+            printf("\nError: División por cero.\n");
+            return;
+        }
+        break;
     case 5:
         result = 1;
         for (int i = 0; i < (int)b; i++)
@@ -136,11 +139,15 @@ void performOperation(Stack *s, int operation)
         break;
     case 6:
         if ((int)b != 0)
+        {
             result = (int)a % (int)b;
+        }
         else
-            printf("");
-        printf("Error: División por cero.\n");
-        return;
+        {
+            printf("\nError: División por cero.\n");
+            return;
+        }
+        break;
     case 7:
         result = (a > b) ? a : b;
         break;
@@ -154,7 +161,7 @@ void performOperation(Stack *s, int operation)
         result = (a > b) ? (a - b) : (b - a);
         break;
     default:
-        printf("Operación no válida.\n");
+        printf("\nOperación no válida.\n");
         return;
     }
 
@@ -186,7 +193,13 @@ int main()
     do
     {
         menu();
-        scanf("%d", &option);
+        if (scanf("%d", &option) != 1)
+        {
+            printf("Entrada inválida. Intente nuevamente.\n");
+            while (getchar() != '\n')
+                ;
+            continue;
+        }
 
         switch (option)
         {
@@ -209,6 +222,7 @@ int main()
         case 5:
             printf("Saliendo del programa...\n");
             break;
+
         default:
             printf("Opción no válida, intente nuevamente.\n");
         }
