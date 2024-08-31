@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/aarias4/Operating_Systems/pruebas_fork",
-      "program": "/home/aarias4/Operating_Systems/pruebas_fork/build/Debug/outDebug",
+      "cwd": "/home/aarias4/Operating_Systems/threads",
+      "program": "/home/aarias4/Operating_Systems/threads/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

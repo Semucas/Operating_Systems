@@ -10,7 +10,8 @@
                 "${file}",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}",
-                ""
+                "-lm",
+                "-lpthread"
             ],
             "options": {
                 "cwd": "${fileDirname}"
