@@ -7,7 +7,7 @@ void *myfunc(void *args)
 {
     char *msg = *(int *)args;
     printf("Hola desde el hilo %d\n", msg);
-    for (int i = 0; i < 500; i++)
+    for (int i = 0; i < 5; i++)
     {
         printf("thread [%d]: %d\n", msg, i);
         usleep(1000000);
